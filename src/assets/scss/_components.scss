@@ -1,0 +1,50 @@
+
+.login-page{
+  align-items: center;
+
+  h2{
+    margin-bottom: 1.5rem;
+  }
+
+}
+
+
+.dashboard-page{
+  padding: 3rem 0;
+
+  .left-container{
+    width: 40%;
+    @include flex-box();
+    background: #efefef;
+
+    .chat-wrapper{
+      height: inherit;
+
+      .chat-box{
+        @include calc('height', '100% - 3.4rem');
+        padding: 0 2rem 0 5rem;
+        overflow-y: scroll;
+      }
+
+      .chat-input-area{
+        @include flex-box();
+        font-size: $default-font-size;
+
+        input#chat-text{
+          font-size: inherit;
+        }
+
+        button.chat-btn{
+          width: 150px;
+          font-size: inherit;
+        }
+      }
+    }
+
+  }
+
+  .right-container{
+    width: 60%;
+
+  }
+}

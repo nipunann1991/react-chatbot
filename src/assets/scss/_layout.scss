@@ -1,0 +1,65 @@
+
+
+html{
+	font-size:  60%;
+
+
+	@include breakpoint($tablet){
+		font-size:  62.5%;
+	}
+
+}
+
+body{
+	font-family: 'Ubuntu', sans-serif;
+	font-size: $default-font-size;
+}
+
+
+h1{
+	font-size: $main-heading-font-size;
+	text-transform: uppercase;
+	font-weight: 700;
+	line-height: $main-heading-font-size;
+}
+
+h2{
+	font-size: $section-h2-font-size;
+}
+
+
+h1, h2, h3, h4, p{
+	position: relative;
+}
+
+
+.page{
+	width: 100vw;
+	height: 100vh;
+	@include flex-box();
+
+	.inner{
+		height: inherit;
+	}
+}
+
+
+form{
+	font-size: $default-font-size;
+
+	&.mini-form{
+		width: 40rem;
+		margin: auto;
+		margin-bottom: 15rem;
+	}
+
+	.form-control{
+		font-size: inherit;
+	}
+
+	button.btn{
+		font-size: inherit;
+		padding: 0.5rem 2rem;
+		margin-top: 1.5rem;
+	}
+}
