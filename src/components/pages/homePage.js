@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import {TweenMax, TimelineMax, Power1, Back, CSSPlugin, ScrollToPlugin, Draggable, Elastic} from "gsap/all";
 
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 class HomePage extends React.Component {
 
 
@@ -100,7 +103,7 @@ conversationList: []
   }
 
   scrollDown = () =>{
-    TweenMax.to('#chat-box', 1.5, { scrollTo: { 	y: "+=60" }, ease: Back.easeNone});
+    TweenMax.to('.chat-box', 1.5, { scrollTo: { 	y: "+=60" }, ease: Back.easeNone});
   }
 
   onEnterPress = (e) => {
@@ -121,10 +124,10 @@ conversationList: []
 
     return (
       <div className="container-fluid page dashboard-page">
-        <div className="left-container">
+        <div className="left-container centered-content">
           <div className="chat-wrapper">
 
-            <div className="chat-box" id="chat-box">
+            <PerfectScrollbar className="chat-box" id="chat-box">
 
                 <ul className="chat-list-wrapper" id="chat-list-wrapper">
 
@@ -138,7 +141,7 @@ conversationList: []
 
                 </ul>
 
-            </div>
+            </PerfectScrollbar>
 
             <div className="chat-input-area">
               <input type="text" className="form-control" value={this.state.questionText} id="chat-text" onChange={this.getChat} onKeyDown={this.onEnterPress} />

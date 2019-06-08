@@ -15,7 +15,12 @@
   .left-container{
     width: 40%;
     @include flex-box();
-    background: #efefef;
+    //background: #efefef;
+
+    &.centered-content{
+      width: 50%;
+      margin: 0 auto;
+    }
 
     .chat-wrapper{
       width: 100%;
@@ -37,17 +42,40 @@
           top: 40%;
 
           li{
+            display: block;
+
+            &:first-child{
+              .message{
+                color: #111;
+                background: transparent;
+                padding: 0rem;
+              }
+
+              .reply{
+                display: none;
+              }
+            }
 
             .message{
               margin-top: 3rem;
               position: relative;
               opacity: 0;
+              background: #ab00ff;
+              color: #fff;
+              display: inline-block;
+              padding: 1rem 2.5rem;
+              border-radius: 2rem;
+              border-bottom-left-radius: 0;
             }
 
             .reply{
               margin-top: 3rem;
               position: relative;
               opacity: 0;
+              background: #efefef;
+              padding: 1rem 2.5rem;
+              border-radius: 2rem;
+              border-bottom-right-radius: 0;
             }
 
             &:last-child{
@@ -70,6 +98,7 @@
         button.chat-btn{
           width: 150px;
           font-size: inherit;
+          display: none;
         }
       }
     }
@@ -78,6 +107,7 @@
 
   .right-container{
     width: 60%;
+    display: none;
 
   }
 }
