@@ -12,6 +12,8 @@ conversationList: []
     this.state={
       numbers : [1, 2, 3, 4, 5],
       conversation: [],
+      isTop: false,
+      questionText: ''
     }
 
 
@@ -20,16 +22,14 @@ conversationList: []
   componentDidMount(){
 
       this.conversationList = [{
-        message: "<h1>Hi I'm FINN</h1><h2>An AI assistant and react chat bot</h2>",
+        message: "<h1>Hi I'm FINN</h1><h2>An AI assistant and react chat bot</h2><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore incidunt repellendus animi maiores minima neque nobis modi voluptate nemo qui blanditiis, distinctio cupiditate nihil! Autem et laboriosam mollitia, voluptates nisi?'</p>",
 
-        reply: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore incidunt repellendus animi maiores minima neque nobis modi voluptate nemo qui blanditiis, distinctio cupiditate nihil! Autem et laboriosam mollitia, voluptates nisi?'
+        reply: ''
       }]
 
     this.setState({ conversation: this.conversationList }, () =>{
       this.animateChat(0);
     });
-
-
 
   }
 
@@ -37,18 +37,32 @@ conversationList: []
   sendChat = () =>{
 
     this.conversationList.push({
-      message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore incidunt repellendus.",
-
-      // reply: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore incidunt repellendus animi maiores minima neque nobis modi voluptate nemo qui blanditiis, distinctio cupiditate nihil! Autem et laboriosam mollitia, voluptates nisi?'
+      message: this.state.questionText,
+      reply: ""
     });
-
-    console.log()
 
     this.setState({ conversation: this.conversationList }, ()=>{
       this.animateChat((this.conversationList.length - 1));
     });
 
+    setTimeout(function() {
 
+      this.conversationList[(this.conversationList.length - 1)].reply = 'qui blanditiis, distinctio cupiditate nihil! Autem et laboriosam mollitia, voluptates nisi';
+
+      this.setState({ conversation: this.conversationList }, ()=>{
+
+      var animateChat = new TimelineMax();
+      animateChat
+        .to('.chat-list-wrapper li', 0.5, { top: "-=50", autoAlpha: 1, ease: Power1.easeNone })
+
+        if( parseInt(document.getElementById("chat-list-wrapper").style.top, 10) < 50){
+
+            this.setState({ isTop: true });
+        }
+        this.scrollDown();
+      });
+
+    }.bind(this), 1000);
 
   }
 
@@ -65,19 +79,43 @@ conversationList: []
   animateChat = (index) =>{
     console.log(index)
     var animateChat = new TimelineMax();
+    var val = 0;
+
+    if (!this.state.isTop) {
+      val =  "-=50"
+    }else{
+      val = '0'
+    }
+
     animateChat
-      .to('.chat-list-wrapper li', 0.5, { y: "-=20", autoAlpha: 1, ease: Power1.easeNone })
+      .to('.chat-list-wrapper ', 0.5, { top: val, autoAlpha: 1, ease: Power1.easeNone })
       .to('.message'+index, 0.5, { y: "-=20", autoAlpha: 1, ease: Power1.easeNone })
       .to('.reply'+index , 0.5, { y: "-=20", autoAlpha: 1, ease: Power1.easeNone });
 
-
-      TweenMax.to('#chat-box', 1.5, {
-			scrollTo: {
-				y: "+=60"
-			},
-			ease: Back.easeNone});
-
+      this.scrollDown();
   }
+
+  getChat = (event) =>{
+    this.setState({ questionText: event.target.value });
+  }
+
+  scrollDown = () =>{
+    TweenMax.to('#chat-box', 1.5, { scrollTo: { 	y: "+=60" }, ease: Back.easeNone});
+  }
+
+  onEnterPress = (e) => {
+    if(e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+
+      if (this.state.questionText != '') {
+        this.sendChat();
+        this.setState({ questionText: '' });
+      }
+
+
+    }
+  }
+
 
   render() {
 
@@ -87,22 +125,23 @@ conversationList: []
           <div className="chat-wrapper">
 
             <div className="chat-box" id="chat-box">
-              <ul className="chat-list-wrapper">
 
-                 {this.state.conversation.map((value, index) => (
+                <ul className="chat-list-wrapper" id="chat-list-wrapper">
 
-                    <li>
-                      <div className={"message message"+index} dangerouslySetInnerHTML={{__html: value.message}}></div>
-                      <div className={"reply reply"+index} dangerouslySetInnerHTML={{__html: value.reply}}></div>
-                    </li>
-                 ))}
+                   {this.state.conversation.map((value, index) => (
 
-              </ul>
+                      <li>
+                        <div className={"message message"+index} dangerouslySetInnerHTML={{__html: value.message}}></div>
+                        <div className={"reply reply"+index} dangerouslySetInnerHTML={{__html: value.reply}}></div>
+                      </li>
+                   ))}
+
+                </ul>
 
             </div>
 
             <div className="chat-input-area">
-              <input type="text" className="form-control" id="chat-text" />
+              <input type="text" className="form-control" value={this.state.questionText} id="chat-text" onChange={this.getChat} onKeyDown={this.onEnterPress} />
               <button type="button" className="btn btn-primary chat-btn" onClick={this.sendChat}>Chat</button>
             </div>
           </div>

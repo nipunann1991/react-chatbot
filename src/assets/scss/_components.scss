@@ -18,11 +18,12 @@
     background: #efefef;
 
     .chat-wrapper{
+      width: 100%;
       height: inherit;
 
       .chat-box{
         @include calc('height', '100% - 3.4rem');
-        @include flex-box-center();
+        //@include flex-box-center();
         padding: 0 2rem 0 5rem;
         overflow-y: scroll;
 
@@ -31,22 +32,27 @@
         }
 
         ul.chat-list-wrapper{
-          height: 100px;
+          //height: 100px;
+          position: relative;
+          top: 40%;
 
           li{
+
             .message{
               margin-top: 3rem;
+              position: relative;
               opacity: 0;
             }
 
             .reply{
               margin-top: 3rem;
+              position: relative;
               opacity: 0;
             }
 
             &:last-child{
 
-                margin-bottom: 5rem;
+                margin-bottom: 15rem;
 
             }
           }
