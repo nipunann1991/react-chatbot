@@ -27,7 +27,7 @@
       height: inherit;
 
       .chat-box{
-        @include calc('height', '100% - 3.4rem');
+        @include calc('height', '100% - 6rem');
         //@include flex-box-center();
         padding: 0 2rem 0 5rem;
         overflow-y: scroll;
@@ -43,12 +43,14 @@
 
           li{
             display: block;
+            font-size: 2rem;
 
             &:first-child{
               .message{
                 color: #111;
                 background: transparent;
                 padding: 0rem;
+                max-width: 100%;
               }
 
               .reply{
@@ -66,6 +68,7 @@
               padding: 1rem 2.5rem;
               border-radius: 2rem;
               border-bottom-left-radius: 0;
+              max-width: 60%;
             }
 
             .reply{
@@ -76,6 +79,9 @@
               padding: 1rem 2.5rem;
               border-radius: 2rem;
               border-bottom-right-radius: 0;
+              max-width: 60%;
+              @include flex-box();
+              margin-left: auto;
             }
 
             &:last-child{
@@ -92,7 +98,9 @@
         font-size: $default-font-size;
 
         input#chat-text{
-          font-size: inherit;
+          font-size: 2rem;
+          padding: 1rem 2rem;
+          height: auto;
         }
 
         button.chat-btn{

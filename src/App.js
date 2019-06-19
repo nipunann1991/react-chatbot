@@ -13,6 +13,7 @@ function App() {
     <Router>
       <Route path="/login" component={Login}/>
       <PrivateRoute exact path='/protected' component={Protected} />
+        <PrivateRoute exact path='/dashboard/:page' component={HomePage} />
       <PrivateRoute exact path='/dashboard' component={HomePage} />
       <PrivateRoute exact path='/' component={HomePage} />
     </Router>

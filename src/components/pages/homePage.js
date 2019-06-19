@@ -4,10 +4,14 @@ import {TweenMax, TimelineMax, Power1, Back, CSSPlugin, ScrollToPlugin, Draggabl
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
+
+
 class HomePage extends React.Component {
 
 
-conversationList: []
+
+conversationList: [];
+
 
   constructor(props) {
     super(props);
@@ -34,6 +38,9 @@ conversationList: []
       this.animateChat(0);
     });
 
+
+
+
   }
 
 
@@ -48,24 +55,51 @@ conversationList: []
       this.animateChat((this.conversationList.length - 1));
     });
 
-    setTimeout(function() {
+    fetch("/ask", {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ input: this.state.questionText }),
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result)
 
-      this.conversationList[(this.conversationList.length - 1)].reply = 'qui blanditiis, distinctio cupiditate nihil! Autem et laboriosam mollitia, voluptates nisi';
 
-      this.setState({ conversation: this.conversationList }, ()=>{
+          this.conversationList[(this.conversationList.length - 1)].reply = result.output.generic[0].text;
 
-      var animateChat = new TimelineMax();
-      animateChat
-        .to('.chat-list-wrapper li', 0.5, { top: "-=50", autoAlpha: 1, ease: Power1.easeNone })
+          this.setState({ conversation: this.conversationList }, ()=>{
 
-        if( parseInt(document.getElementById("chat-list-wrapper").style.top, 10) < 50){
+            var animateChat = new TimelineMax();
+            animateChat
+              .to('.chat-list-wrapper li', 0.5, { top: "-=50", autoAlpha: 1, ease: Power1.easeNone })
+              .to('.left-container', 0.7, { 'margin-left': "15",  ease: Power1.easeNone })
+              .to('.left-container', 0.3, { width : "40%",  ease: Power1.easeNone })
 
-            this.setState({ isTop: true });
+            if( parseInt(document.getElementById("chat-list-wrapper").style.top, 10) < 50){
+                this.setState({ isTop: true });
+            }
+
+            this.scrollDown();
+
+          });
+
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+
         }
-        this.scrollDown();
-      });
+      )
 
-    }.bind(this), 1000);
+    //setTimeout(function() {
+
+
+
+    //}.bind(this), 1000);
 
   }
 
@@ -114,7 +148,6 @@ conversationList: []
         this.sendChat();
         this.setState({ questionText: '' });
       }
-
 
     }
   }
